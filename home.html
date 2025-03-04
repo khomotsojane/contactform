@@ -53,46 +53,34 @@
         button:hover {
             background: #ff8c00;
         }
-        #status {
-            margin-top: 10px;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
     <div class="contact-container">
         <h2>Contact Me</h2>
-        <form id="contactForm">
-            <input type="text" id="name" name="name" placeholder="Your Name" required>
-            <input type="email" id="email" name="email" placeholder="Your Email" required>
-            <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
+        <form id="contactForm" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
             <button type="submit">Send Message</button>
         </form>
         <p id="status"></p>
     </div>
     
     <script>
-        document.getElementById("contactForm").addEventListener("submit", async function(event) {
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
             event.preventDefault();
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let message = document.getElementById("message").value;
             
-            let form = event.target;
-            let formData = new FormData(form);
-
-            let response = await fetch("https://formspree.io/f/mnnjerjl", {
-                method: "POST",
-                body: formData,
-                headers: { "Accept": "application/json" }
-            });
-
-            let statusMsg = document.getElementById("status");
-
-            if (response.ok) {
-                statusMsg.innerText = "Message Sent Successfully!";
-                statusMsg.style.color = "#FFD700";
-                form.reset();
+            if (name && email && message) {
+                document.getElementById("status").innerText = "Message Sent Successfully!";
+                document.getElementById("status").style.color = "#FFD700";
+                document.getElementById("contactForm").reset();
             } else {
-                statusMsg.innerText = "Error sending message. Please try again.";
-                statusMsg.style.color = "red";
+                document.getElementById("status").innerText = "Please fill out all fields.";
+                document.getElementById("status").style.color = "red";
             }
         });
     </script>
